@@ -18,6 +18,7 @@ DataTransforms = {
 }
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+torch.manual_seed(42)
 model = LeNet()
 batch_size = 32
 epochs = 10
