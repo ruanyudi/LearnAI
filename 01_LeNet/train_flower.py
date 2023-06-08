@@ -74,10 +74,13 @@ def train(model,
             loss.backward()
             optimizer.step()
         print(
-            f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | TrainAcc : {vali(model, testDataLoader, device) * 100:.2f}%")
+            f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | Val Acc : {vali(model, testDataLoader, device) * 100:.2f}%")
 
 
 print(f"Start to Train the Model...")
-
+try:
+    model.load_state_dict(torch.load('LeNet_flower.pth'))
+except Exception:
+    print("Failed to Load the Weight")
 train(model, 50, optimizer, loss_fn, trainDataLoader, device)
 torch.save(model.state_dict(), 'LeNet_flower.pth')
