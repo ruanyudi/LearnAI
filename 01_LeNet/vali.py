@@ -20,7 +20,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = LeNet()
 batch_size = 32
 loss_fn = torch.nn.CrossEntropyLoss()
-testData = torchvision.datasets.CIFAR10('../data_set', download=False, transform=DataTransforms['test'], train=True)
+testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=True)
 testDataLoader = DataLoader(testData, shuffle=True, batch_size=batch_size)
 
 def vali(model,

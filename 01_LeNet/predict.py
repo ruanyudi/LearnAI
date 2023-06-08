@@ -19,7 +19,7 @@ DataTransforms = {
 
 model = LeNet()
 model.load_state_dict(torch.load('./LeNet.pth'))
-testData = torchvision.datasets.CIFAR10('../data_set', download=False, transform=DataTransforms['test'], train=False)
+testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=False)
 testDataLoader = DataLoader(testData, shuffle=True, batch_size=1024)
 
 

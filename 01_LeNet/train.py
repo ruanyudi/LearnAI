@@ -24,9 +24,9 @@ batch_size = 32
 epochs = 10
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 loss_fn = torch.nn.CrossEntropyLoss()
-trainData = torchvision.datasets.CIFAR10('../data_set', download=False, transform=DataTransforms['train'], train=True)
+trainData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['train'], train=True)
 trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=batch_size)
-testData = torchvision.datasets.CIFAR10('../data_set', download=False, transform=DataTransforms['test'], train=True)
+testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=True)
 testDataLoader = DataLoader(testData, shuffle=True, batch_size=batch_size)
 
 
