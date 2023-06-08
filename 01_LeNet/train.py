@@ -49,9 +49,9 @@ def train(model,
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        print(f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | TrainAcc : {vali(model,testDataLoader,device)*100:.2f}%")
+        print(f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | Val Acc : {vali(model,testDataLoader,device)*100:.2f}%")
 
 
 print(f"Start to Train the Model...")
-train(model, 10, optimizer, loss_fn, trainDataLoader, device)
+train(model, 50, optimizer, loss_fn, trainDataLoader, device)
 torch.save(model.state_dict(), 'LeNet.pth')

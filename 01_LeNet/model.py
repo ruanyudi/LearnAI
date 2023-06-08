@@ -12,7 +12,11 @@ class LeNet(nn.Module):
         self.inception4 = _LeNet(seed=21)
         self.inception5 = _LeNet(seed=42)
         torch.manual_seed(42)
-        self.classifier = nn.Linear(50, 10)
+        self.classifier = nn.Sequential(
+            nn.Linear(50,2048),
+            nn.Linear(2048,1024),
+            nn.Linear(1024,10)
+        )
 
     def forward(self, x):
         # x = self.inception1(x) + self.inception2(x)
