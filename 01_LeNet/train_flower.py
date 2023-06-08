@@ -29,17 +29,18 @@ class FlowerCF(nn.Module):
             nn.BatchNorm2d(512),
             nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=5, stride=2, padding=2),  # 56
             nn.BatchNorm2d(1024),
-            nn.Conv2d(in_channels=1024, out_channels=2048, kernel_size=5, stride=2, padding=4),  # 28
+            nn.Conv2d(in_channels=1024, out_channels=2048, kernel_size=5, stride=2, padding=6),  # 28
             nn.BatchNorm2d(2048),
-            nn.Conv2d(in_channels=2048, out_channels=1024, kernel_size=1, stride=1, padding=1),
-            nn.Conv2d(in_channels=1024, out_channels=512, kernel_size=1, stride=1, padding=1),
+            nn.Conv2d(in_channels=2048, out_channels=1024, kernel_size=1, stride=1),
+            nn.Conv2d(in_channels=1024, out_channels=512, kernel_size=1, stride=1),
             nn.BatchNorm2d(512),
-            nn.Conv2d(in_channels=512, out_channels=3, kernel_size=1, stride=1, padding=1)
+            nn.Conv2d(in_channels=512, out_channels=3, kernel_size=1, stride=1)
         )
         self.LeNet = LeNet()
 
     def forward(self, x):
-        return self.LeNet(self.preNet(x))
+        x = self.preNet(x)
+        return self.LeNet(x)
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
