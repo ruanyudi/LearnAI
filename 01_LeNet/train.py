@@ -49,7 +49,7 @@ def train(model,
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        print(f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | TrainAcc : {vali(model,testDataLoader,device)*100:.3f}")
+        print(f"Epoch : {epoch} | Loss : {total_loss / count:.3f} | TrainAcc : {vali(model,testDataLoader,device)*100:.2f}%")
 
 
 train(model, 10, optimizer, loss_fn, trainDataLoader, device)
