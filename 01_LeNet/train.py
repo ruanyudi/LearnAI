@@ -29,7 +29,6 @@ trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=batch_size)
 testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=True)
 testDataLoader = DataLoader(testData, shuffle=True, batch_size=batch_size)
 
-
 def train(model,
           epochs,
           optimizer,

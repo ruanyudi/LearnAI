@@ -4,24 +4,24 @@ from torchvision import transforms
 import torch.optim
 from torch.utils.data import DataLoader
 
-DataTransforms = {
-    'train': transforms.Compose([
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-    ]),
-    'test': transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-    ]),
-}
-
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model = LeNet()
-batch_size = 32
-loss_fn = torch.nn.CrossEntropyLoss()
-testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=True)
-testDataLoader = DataLoader(testData, shuffle=True, batch_size=batch_size)
+# DataTransforms = {
+#     'train': transforms.Compose([
+#         transforms.RandomHorizontalFlip(),
+#         transforms.ToTensor(),
+#         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+#     ]),
+#     'test': transforms.Compose([
+#         transforms.ToTensor(),
+#         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+#     ]),
+# }
+#
+# device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# model = LeNet()
+# batch_size = 32
+# loss_fn = torch.nn.CrossEntropyLoss()
+# testData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=DataTransforms['test'], train=True)
+# testDataLoader = DataLoader(testData, shuffle=True, batch_size=batch_size)
 
 def vali(model,
          testDataLoader,
