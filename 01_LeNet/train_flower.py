@@ -25,16 +25,14 @@ class FlowerCF(nn.Module):
     def __init__(self):
         super().__init__()
         self.preNet = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=512, kernel_size=5, stride=2, padding=2),  # 112
-            nn.BatchNorm2d(512),
-            nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=5, stride=2, padding=2),  # 56
-            nn.BatchNorm2d(1024),
-            nn.Conv2d(in_channels=1024, out_channels=2048, kernel_size=5, stride=2, padding=6),  # 28
-            nn.BatchNorm2d(2048),
-            nn.Conv2d(in_channels=2048, out_channels=1024, kernel_size=1, stride=1),
-            nn.Conv2d(in_channels=1024, out_channels=512, kernel_size=1, stride=1),
-            nn.BatchNorm2d(512),
-            nn.Conv2d(in_channels=512, out_channels=3, kernel_size=1, stride=1)
+            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=5, stride=2, padding=2),  # 112
+            nn.BatchNorm2d(64),
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=5, stride=2, padding=2),  # 56
+            nn.BatchNorm2d(128),
+            nn.Conv2d(in_channels=128, out_channels=256, kernel_size=5, stride=2, padding=6),  # 32
+            nn.Conv2d(in_channels=256, out_channels=128, kernel_size=1, stride=1),
+            nn.BatchNorm2d(128),
+            nn.Conv2d(in_channels=128, out_channels=3, kernel_size=1, stride=1)
         )
         self.LeNet = LeNet()
 
@@ -80,5 +78,6 @@ def train(model,
 
 
 print(f"Start to Train the Model...")
+
 train(model, 50, optimizer, loss_fn, trainDataLoader, device)
-# torch.save(model.state_dict(), 'LeNet.pth')
+torch.save(model.state_dict(), 'LeNet_flower.pth')
