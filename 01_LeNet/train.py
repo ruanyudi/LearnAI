@@ -52,5 +52,10 @@ def train(model,
 
 
 print(f"Start to Train the Model...")
+
+try:
+    model.load_state_dict(torch.load('LeNet.pth'))
+except Exception:
+    print("Failed to Load the Weight")
 train(model, 50, optimizer, loss_fn, trainDataLoader, device)
 torch.save(model.state_dict(), 'LeNet.pth')

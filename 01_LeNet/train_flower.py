@@ -46,7 +46,7 @@ torch.manual_seed(42)
 model = FlowerCF()
 batch_size = 32
 epochs = 10
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 loss_fn = torch.nn.CrossEntropyLoss()
 trainData = torchvision.datasets.ImageFolder('../data_set/flower_data/train', transform=DataTransforms['train'])
 trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=batch_size)
