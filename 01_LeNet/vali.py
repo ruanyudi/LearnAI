@@ -4,6 +4,7 @@ from torchvision import transforms
 import torch.optim
 from torch.utils.data import DataLoader
 
+
 # DataTransforms = {
 #     'train': transforms.Compose([
 #         transforms.RandomHorizontalFlip(),
@@ -25,16 +26,19 @@ from torch.utils.data import DataLoader
 
 def vali(model,
          testDataLoader,
-         device):
+         device,
+         confusionmatrix=None):
     model = model.to(device)
     model.eval()
     correct = 0
-    count =0
+    count = 0
     with torch.inference_mode():
-        for features,labels in testDataLoader:
-            features,labels = features.to(device),labels.to(device)
+        for features, labels in testDataLoader:
+            features, labels = features.to(device), labels.to(device)
             pred = model(features)
-            pred = torch.argmax(pred,dim=1)
-            correct = correct + (pred==labels).sum().item()
+            pred = torch.argmax(pred, dim=1)
+            correct = correct + (pred == labels).sum().item()
             count = count + len(labels)
-    return correct/count
+            if(confusionmatrix!=None):
+                confusionmatrix.update(pred.cpu().numpy(), labels.cpu().numpy())
+    return correct / count

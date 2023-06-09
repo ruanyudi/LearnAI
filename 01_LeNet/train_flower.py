@@ -1,4 +1,6 @@
+import numpy as np
 import torch.optim
+from prettytable import PrettyTable
 from torch.utils.data import DataLoader
 from model import LeNet
 import torchvision
@@ -82,5 +84,50 @@ try:
     model.load_state_dict(torch.load('LeNet_flower.pth'))
 except Exception:
     print("Failed to Load the Weight")
-train(model, 50, optimizer, loss_fn, trainDataLoader, device)
+
+
+class ConfusionMatrix(object):
+    """
+    注意，如果显示的图像不全，是matplotlib版本问题
+    本例程使用matplotlib-3.2.1(windows and ubuntu)绘制正常
+    需要额外安装prettytable库
+    """
+
+    def __init__(self, num_classes: int, labels: list):
+        self.matrix = np.zeros((num_classes, num_classes))
+        self.num_classes = num_classes
+        self.labels = labels
+
+    def update(self, preds, labels):
+        for p, t in zip(preds, labels):
+            self.matrix[p, t] += 1
+
+    def summary(self):
+        # calculate accuracy
+        sum_TP = 0
+        for i in range(self.num_classes):
+            sum_TP += self.matrix[i, i]
+        acc = sum_TP / np.sum(self.matrix)
+        print("the model accuracy is ", acc)
+
+        # precision, recall, specificity
+        table = PrettyTable()
+        table.field_names = ["", "Precision", "Recall", "Specificity"]
+        for i in range(self.num_classes):
+            TP = self.matrix[i, i]
+            FP = np.sum(self.matrix[i, :]) - TP
+            FN = np.sum(self.matrix[:, i]) - TP
+            TN = np.sum(self.matrix) - TP - FP - FN
+            Precision = round(TP / (TP + FP), 3) if TP + FP != 0 else 0.
+            Recall = round(TP / (TP + FN), 3) if TP + FN != 0 else 0.
+            Specificity = round(TN / (TN + FP), 3) if TN + FP != 0 else 0.
+            table.add_row([self.labels[i], Precision, Recall, Specificity])
+        print(table)
+
+
+confusionmatrix = ConfusionMatrix(5, trainData.classes)
+
+train(model, 1, optimizer, loss_fn, trainDataLoader, device)
+vali(model,testDataLoader,device,confusionmatrix)
+confusionmatrix.summary()
 torch.save(model.state_dict(), 'LeNet_flower.pth')
