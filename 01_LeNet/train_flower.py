@@ -127,7 +127,7 @@ class ConfusionMatrix(object):
 
 confusionmatrix = ConfusionMatrix(5, trainData.classes)
 
-train(model, 1, optimizer, loss_fn, trainDataLoader, device)
+train(model, 50, optimizer, loss_fn, trainDataLoader, device)
 vali(model,testDataLoader,device,confusionmatrix)
 confusionmatrix.summary()
 torch.save(model.state_dict(), 'LeNet_flower.pth')
