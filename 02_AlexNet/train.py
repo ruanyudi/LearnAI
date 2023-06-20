@@ -6,27 +6,31 @@ import torchvision
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from torch import nn
-
-dataTransforms = {
+DataTransforms = {
     'train': transforms.Compose([
         transforms.RandomHorizontalFlip(),
-        transforms.Resize(224),
-        transforms.ToTensor()
+        transforms.RandomResizedCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ]),
     'test': transforms.Compose([
-        transforms.Resize(224),
-        transforms.ToTensor()
-    ])
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ]),
 }
 
-trainData = torchvision.datasets.MNIST('../data_set', download=True, transform=dataTransforms['train'], train=True)
-testData = torchvision.datasets.MNIST('../data_set', download=True, transform=dataTransforms['test'], train=False)
-trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=1)
-testDataLoader = DataLoader(testData, shuffle=False, batch_size=32)
-epochs = 10
+
+#trainData = torchvision.datasets.MNIST('../data_set', download=True, transform=dataTransforms['train'], train=True)
+#testData = torchvision.datasets.MNIST('../data_set', download=True, transform=dataTransforms['test'], train=False)
+trainData = torchvision.datasets.ImageFolder('../data_set/flower_data/train', transform=DataTransforms['train'])
+testData = torchvision.datasets.ImageFolder('../data_set/flower_data/val', transform=DataTransforms['test'])
+trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=512,num_workers=16)
+testDataLoader = DataLoader(testData, shuffle=False, batch_size=1,num_workers=16)
+epochs = 20
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model = AlexNet().to(device)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+model = torch.load('./AlexNet.pth').to(device)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 loss_fn = torch.nn.CrossEntropyLoss()
 
 
@@ -67,3 +71,4 @@ def train():
 
 print("Start to train")
 train()
+torch.save(model,'AlexNet.pth')
