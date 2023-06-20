@@ -1,4 +1,6 @@
 import torch
+from tqdm import tqdm
+
 from model import AlexNet
 import torchvision
 from torch.utils.data import DataLoader
@@ -37,7 +39,8 @@ def train():
         testAcc = 0
         testCount = 0
         model.train()
-        for features, labels in trainDataLoader:
+        for i,data in tqdm(enumerate(trainDataLoader)):
+            features,labels = data
             features, labels = features.to(device), labels.to(device)
             pred = model(features)
             loss = loss_fn(pred, labels)
@@ -50,7 +53,8 @@ def train():
             trainAcc += (pred == labels).sum().item()
         model.eval()
         with torch.inference_mode():
-            for features, labels in testDataLoader:
+            for i,data in tqdm(enumerate(testDataLoader)):
+                features, labels = data
                 features, labels = features.to(device), labels.to(device)
                 pred = model(features)
                 loss = loss_fn(pred, labels)
@@ -58,8 +62,7 @@ def train():
                 testCount += len(labels)
                 pred = torch.argmax(pred, dim=1)
                 testAcc += (pred == labels).sum().item()
-        print(
-            f"Epoch:{epoch}|TrainLoss:{trainTotalLoss / trainCount:.6f}|TestLoss:{testTotalLoss / testCount:.6f}|trainACC:{trainAcc / trainCount * 100:.2f}%|testACC:{testAcc / testCount * 100:.2f}%")
+        print(f"Epoch:{epoch}|TrainLoss:{trainTotalLoss / trainCount:.6f}|TestLoss:{testTotalLoss / testCount:.6f}|trainACC:{trainAcc / trainCount * 100:.2f}%|testACC:{testAcc / testCount * 100:.2f}%")
 
 
 print("Start to train")
