@@ -1,4 +1,5 @@
 from torch import nn
+from tqdm import tqdm
 import torch
 import torchvision
 from torch.utils.data import DataLoader
@@ -7,7 +8,6 @@ from model import VGG
 
 dataTransforms = {
     'train': transforms.Compose([
-        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Resize(224)
     ]),
@@ -37,7 +37,8 @@ for epoch in range(epochs):
     train_acc = 0
     test_acc = 0
     test_loss = 0
-    for features, labels in trainDataLoader:
+    for i,data in tqdm(enumerate(trainDataLoader)):
+        features,labels = data
         features, labels = features.to(device), labels.to(device)
         pred = model(features)
         loss = loss_fn(pred, labels)
@@ -48,7 +49,8 @@ for epoch in range(epochs):
         train_count += len(labels)
         pred = torch.argmax(pred, dim=1)
         train_acc += (pred == labels).sum().item()
-    for features, labels in testDataLoader:
+    for i,data in tqdm(enumerate(testDataLoader)):
+        features,labels = data
         features, labels = features.to(device), labels.to(device)
         pred = model(features)
         loss = loss_fn(pred, labels)
