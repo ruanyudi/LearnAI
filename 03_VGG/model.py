@@ -10,6 +10,7 @@ class VGGBasicBlock(nn.Module):
             self.block.add_module("Conv"+str(i),
                                   module=nn.Conv2d(in_channels=in_channnels, out_channels=out_channels, kernel_size=3,
                                                    padding=1, stride=1))
+            self.block.add_module("BN"+str(i),nn.BatchNorm2d(out_channels))
             self.block.add_module("ReLU"+str(i), nn.ReLU())
             in_channnels = out_channels
         self.block.add_module("MaxPool", nn.MaxPool2d(2, 2))
