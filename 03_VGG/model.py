@@ -32,7 +32,7 @@ class VGG(nn.Module):
             nn.ReLU(), nn.Dropout(),
             nn.Linear(4096, 4096),
             nn.ReLU(), nn.Dropout(),
-            nn.Linear(4096, 10)
+            nn.Linear(4096, 5)
         )
         self.__init__weight()
         print("Model Loaded Done !")
