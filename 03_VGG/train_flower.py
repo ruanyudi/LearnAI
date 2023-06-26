@@ -9,6 +9,7 @@ DataTransforms = {
     'train': transforms.Compose([
         transforms.RandomHorizontalFlip(),
         transforms.RandomResizedCrop(224),
+        transforms.RandomRotation(180),
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ]),
