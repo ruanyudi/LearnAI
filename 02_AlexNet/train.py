@@ -25,7 +25,7 @@ DataTransforms = {
 #testData = torchvision.datasets.MNIST('../data_set', download=True, transform=dataTransforms['test'], train=False)
 trainData = torchvision.datasets.ImageFolder('../data_set/flower_data/train', transform=DataTransforms['train'])
 testData = torchvision.datasets.ImageFolder('../data_set/flower_data/val', transform=DataTransforms['test'])
-trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=512,num_workers=16)
+trainDataLoader = DataLoader(trainData, shuffle=False, batch_size=512,num_workers=16)
 testDataLoader = DataLoader(testData, shuffle=False, batch_size=1,num_workers=16)
 epochs = 20
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -71,4 +71,5 @@ def train():
 
 print("Start to train")
 train()
+print("Start to save")
 torch.save(model,'AlexNet.pth')

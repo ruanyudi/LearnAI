@@ -23,16 +23,16 @@ DataTransforms = {
 #testData = torchvision.datasets.FashionMNIST('../data_set', download=True, transform=DataTransforms['test'],train=False)
 trainData = torchvision.datasets.ImageFolder('../data_set/flower_data/train', transform=DataTransforms['train'])
 testData = torchvision.datasets.ImageFolder('../data_set/flower_data/val', transform=DataTransforms['test'])
-trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=128, num_workers=8)
-testDataLoader = DataLoader(testData, shuffle=False, batch_size=1, num_workers=8)
+trainDataLoader = DataLoader(trainData, shuffle=True, batch_size=64, num_workers=16)
+testDataLoader = DataLoader(testData, shuffle=False, batch_size=1, num_workers=16)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #model = VGG(in_channels=3)
-model = torch.load("VGG11.pth")
+model = torch.load("VGG19.pth")
 model.to(device)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.001, weight_decay=0.01, momentum=0.9)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.000001, weight_decay=0.01)
 loss_fn = torch.nn.CrossEntropyLoss()
-epochs = 10
+epochs = 50
 for epoch in range(epochs):
     train_count = 0
     test_count = 0
@@ -65,4 +65,4 @@ for epoch in range(epochs):
         test_acc += (pred == labels).sum().item()
     print(
         f"Epoch: {epoch} | TrainLoss: {train_loss / train_count} | TrainACC: {train_acc / train_count*100:.2f} | TestLoss: {test_loss / test_count} | TestACC : {test_acc / test_count*100:.2f}")
-torch.save(model, "VGG11.pth")
+torch.save(model, "VGG19.pth")

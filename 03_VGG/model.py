@@ -20,7 +20,7 @@ class VGGBasicBlock(nn.Module):
 
 
 class VGG(nn.Module):
-    def __init__(self, in_channels=1, conv_arch=((1, 64), (1, 128), (2, 256), (2, 512), (2, 512))):
+    def __init__(self, in_channels=1, conv_arch=((2, 64), (2, 128), (4, 256), (4, 512), (4, 512))):
         super().__init__()
         self.features = nn.Sequential()
         for i, data in enumerate(conv_arch):
@@ -42,8 +42,9 @@ class VGG(nn.Module):
         return self.classifier(self.features(x))
 
     def __init__weight(self):
+        count=0
         for layer in self.modules():
             if type(layer) == nn.Conv2d or type(layer) == nn.Linear:
                 nn.init.xavier_uniform_(layer.weight)
-                print(f"init parameters : {layer.__class__.__name__}")
-
+                print(f"init parameters {count} : {layer.__class__.__name__}")
+                count+=1 
