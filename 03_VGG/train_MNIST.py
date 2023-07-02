@@ -21,14 +21,14 @@ dataTransforms = {
 
 trainData = torchvision.datasets.MNIST('../data_set',download=True,train=True,transform=dataTransforms['train'])
 testData = torchvision.datasets.MNIST('../data_set',download=True,train=False,transform=dataTransforms['test'])
-trainDataLoader = DataLoader(trainData,shuffle=False,batch_size=1)
-testDataLoader = DataLoader(testData,shuffle=False,batch_size=1)
+trainDataLoader = DataLoader(trainData,shuffle=False,batch_size=64,num_workers=16)
+testDataLoader = DataLoader(testData,shuffle=False,batch_size=1,num_workers=16)
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = VGG().to(device)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
-loss_fn = torch.nn.CrossEntropyLoss()
+loss_fn = nn.CrossEntropyLoss()
 epochs = 80
 for epoch in range(epochs):
     train_count = 0
