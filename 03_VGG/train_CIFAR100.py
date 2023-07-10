@@ -21,15 +21,17 @@ dataTransforms = {
 
 trainData = torchvision.datasets.CIFAR100('../data_set',download=True,train=True,transform=dataTransforms['train'])
 testData = torchvision.datasets.CIFAR100('../data_set',download=True,train=False,transform=dataTransforms['test'])
-trainDataLoader = DataLoader(trainData,shuffle=False,batch_size=1)
+trainDataLoader = DataLoader(trainData,shuffle=False,batch_size=64)
 testDataLoader = DataLoader(testData,shuffle=False,batch_size=1)
+print(trainData)
+exit()
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model = VGG().to(device)
+model = VGG(in_channels=3).to(device)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 loss_fn = torch.nn.CrossEntropyLoss()
-epochs = 80
+epochs = 1
 for epoch in range(epochs):
     train_count = 0
     test_count = 0
@@ -62,3 +64,6 @@ for epoch in range(epochs):
         test_acc += (pred == labels).sum().item()
     print(
         f"Epoch: {epoch} | TrainLoss: {train_loss / train_count} | TrainACC: {train_acc / train_count*100:.2f} | TestLoss: {test_loss / test_count} | TestACC : {test_acc / test_count*100:.2f}")
+
+
+torch.save(model,'CIFAR100.pth')
