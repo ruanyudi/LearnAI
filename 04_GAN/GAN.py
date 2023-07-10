@@ -35,7 +35,7 @@ def show_img(model):
     fig = plt.figure(figsize=(10, 10))
     noise_input = torch.randn((100, 100), device=device)
     prediction = model(noise_input).detach().cpu()
-    prediction = prediction.permute(1, 2, 0).numpy()
+    prediction = prediction.permute(0,2, 3, 1).numpy()
 
     for i in range(100):
         plt.subplot(10, 10, i + 1)
