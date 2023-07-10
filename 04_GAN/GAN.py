@@ -5,14 +5,14 @@ from torch import nn
 import torch
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
-from model.FeatureExtractor import FeatureExtractor
+# from model.FeatureExtractor import FeatureExtractor
 from model.Discriminator import Discriminator
 from model.Generator import Generator
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-class FeatureExtractor(FeatureExtractor):
-    def forward(self,x):
-        return self.features(x)
+# class FeatureExtractor(FeatureExtractor):
+    # def forward(self,x):
+        # return self.features(x)
         
 
 data_transforms = {
@@ -65,9 +65,9 @@ def train(epochs,lr):
     Gen.apply(weights_init)
     Dis = Discriminator(in_channels=1).to(device)
     Dis.apply(weights_init)
-    featureExtractor = FeatureExtractor().to(device)
-    featureExtractor.load_state_dict(torch.load('FeatureExtractor.pth'))
-    featureExtractor.eval()
+    # featureExtractor = FeatureExtractor().to(device)
+    # featureExtractor.load_state_dict(torch.load('FeatureExtractor.pth'))
+    # featureExtractor.eval()
     # try:
     #     Gen = torch.load('Gen.pth')
     #     Dis = torch.load('Dis.pth')
