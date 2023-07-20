@@ -61,7 +61,7 @@ def loss_optical_fn(x, y):
 
 def train(epochs, lr):
     # trainData = torchvision.datasets.CIFAR10('../data_set', download=True, transform=data_transforms['train'], train=True)
-    trainData = torchvision.datasets.MNIST('../data_set', download=True, transform=data_transforms['train'],
+    trainData = torchvision.datasets.FashionMNIST('../data_set', download=True, transform=data_transforms['train'],
                                            train=False)
     # trainData = torchvision.datasets.ImageFolder('../data_set/flower_data/flower_photos',transform = data_transforms['flower'])
     trainDataLoader = DataLoader(trainData, batch_size=128, shuffle=False, num_workers=16)
