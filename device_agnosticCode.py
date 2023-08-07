@@ -33,4 +33,3 @@ def detect_device():
             print("Cannot use GPU, activating CPU")
             device = 'cpu'
     return device
-detect_device()
